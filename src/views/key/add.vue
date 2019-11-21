@@ -1,6 +1,6 @@
 <template>
     <div>
-        这是字段列表页
+        这是索引新增页
     </div>
 </template>
 

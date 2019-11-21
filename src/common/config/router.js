@@ -13,9 +13,25 @@ const routes = [
                 component: 'cluster/list'
             },
             {
-                meta: { title: '字段操作'},
-                component: 'column/list'
+                meta: { title: '主机列表'},
+                component: 'host/list'
             },
+            {
+                meta: { title: '字段新增'},
+                component: 'column/add'
+            },
+            {
+                meta: { title: '字段删除'},
+                component: 'column/delete'
+            },
+            {
+                meta: { title: '索引新增'},
+                component: 'key/add'
+            },
+            {
+                meta: { title: '索引删除'},
+                component: 'key/delete'
+            }
         ]
     },
     {

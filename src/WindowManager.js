@@ -44,6 +44,7 @@ export default class WindowManager {
         win.webContents.on('did-finish-load', ()=>{
             console.log('进入did-finish-load里面')
             win.setTitle(`${win.getTitle()} #${id}`)
+            win.maximize()
             win.show()
             win.focus()
         })

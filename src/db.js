@@ -1,12 +1,12 @@
 const { Client } = require('electron').remote.require('pg')
 
-const connObj = {
+/* const connObj = {
     user: "postgres",
     password: "123456",
     host: "192.168.3.111",
     port: "5432",
     database: "postgres"
-}
+} */
 
 export default class DB {
     /* static createConnectUrl(params) {
@@ -37,7 +37,7 @@ export default class DB {
         })
     } */
 
-    static connectDB() {
+    static connectDB(connObj) {
         const client = new Client(connObj)
         return new Promise((resolve, reject) => {
             client.connect()
@@ -48,6 +48,27 @@ export default class DB {
                 .catch(err => {
                     console.log('连接失败')
                     reject(err)
+                })
+        })
+    }
+
+    static getHosts(cluster) {
+        return new Promise((resolve, reject) => {
+            let localClient = null
+            this.connectDB(cluster)
+                .then((client)=>{
+                    localClient = client
+                    const hostQuery = `
+                    SELECT id, name, host, port, username, 
+                    password, database FROM ${cluster.tableName}
+                    ORDER BY id ASC`
+                    return localClient.query(hostQuery)
+                })
+                .then(result => resolve(result.rows))
+                .catch(err => reject(err))
+                .finally(() => {
+                    localClient.end()
+                    console.log('连接已成功清理')
                 })
         })
     }

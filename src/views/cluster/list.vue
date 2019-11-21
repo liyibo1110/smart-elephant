@@ -13,13 +13,19 @@
             <el-table-column
                 prop="host"
                 align="center"
-                label="主机地址">
+                label="主机地址"
+                width="180">
             </el-table-column>
             <el-table-column
                 prop="port"
                 align="center"
                 label="主机端口"
                 width="180">
+            </el-table-column>
+            <el-table-column
+                prop="database"
+                align="center"
+                label="数据库名">
             </el-table-column>
             <el-table-column
                 prop="tableName"
@@ -42,7 +48,7 @@
 
         <!-- 修改|创建集群 -->
         <el-dialog :title="clusterModelTitle" :visible.sync="clusterModel">
-            <el-form ref="form" :model="clusterForm" label-width="80px">
+            <el-form ref="form" :model="clusterForm" label-width="90px">
                 <el-form-item label="集群名称">
                     <el-input v-model="clusterForm.name" size="medium" placeholder="请输入集群名称"></el-input>
                 </el-form-item>
@@ -51,6 +57,15 @@
                 </el-form-item>
                 <el-form-item label="集群端口">
                     <el-input v-model="clusterForm.port" size="medium" placeholder="请输入集群端口"></el-input>
+                </el-form-item>
+                <el-form-item label="集群用户名">
+                    <el-input v-model="clusterForm.username" size="medium" placeholder="请输入集群用户名"></el-input>
+                </el-form-item>
+                <el-form-item label="集群密码">
+                    <el-input v-model="clusterForm.password" size="medium" placeholder="请输入集群密码"></el-input>
+                </el-form-item>
+                <el-form-item label="数据库名">
+                    <el-input v-model="clusterForm.database" size="medium" placeholder="请输入数据库名"></el-input>
                 </el-form-item>
                 <el-form-item label="集群表名">
                     <el-input v-model="clusterForm.tableName" size="medium" placeholder="请输入集群表名"></el-input>
@@ -89,6 +104,9 @@
                     name: "",
                     host: "",
                     port: "",
+                    username: "",
+                    password: "",
+                    database: "",
                     tableName: ""
                 },
                 
@@ -103,16 +121,16 @@
             }
         },
         mounted() {
-            console.log('进入mounted了')
-            console.log(window)
+            /* console.log('进入mounted了')
+            console.log(window) */
         },
         created() {
             // 从localStorage恢复clusters对象
-            this.recoveryClusters()
+            // this.recoveryClusters()
         },
         methods: {
             ...mapMutations(['modifyClusterState']),
-            recoveryClusters() {
+            /* recoveryClusters() {
                 console.log('开始恢复')
                 let clusters = window.localStorage.getItem("clusters")
                 let list = []
@@ -120,9 +138,9 @@
                     list = JSON.parse(clusters)
                 }
                 console.log('长度为：' + list.length)
-                modifyClusterState(list)
+                this.modifyClusterState(list)
                 console.log('恢复完成')
-            },
+            }, */
             openClusterModel(obj) {
                 if (obj) {
                     console.log(obj)
@@ -131,6 +149,9 @@
                     this.clusterForm.name = row.name
                     this.clusterForm.host = row.host
                     this.clusterForm.port = row.port
+                    this.clusterForm.username = row.username
+                    this.clusterForm.password = row.password
+                    this.clusterForm.database = row.database
                     this.clusterForm.tableName = row.tableName
                     this.clusterEditIndex = $index
                     return this.clusterModel = true
@@ -144,6 +165,9 @@
                     name: "",
                     host: "",
                     port: "",
+                    username: "",
+                    password: "",
+                    database: "",
                     tableName: ""
                 }
                 this.clusterEditIndex = -1
@@ -166,6 +190,9 @@
                     name: this.clusterForm.name,
                     host: this.clusterForm.host,
                     port: this.clusterForm.port,
+                    username: this.clusterForm.username,
+                    password: this.clusterForm.password,
+                    database: this.clusterForm.database,
                     tableName: this.clusterForm.tableName,
                 })
                 list = [...list, ...this.clusters]
@@ -181,6 +208,9 @@
                 list[this.clusterEditIndex].name = this.clusterForm.name
                 list[this.clusterEditIndex].host = this.clusterForm.host
                 list[this.clusterEditIndex].port = this.clusterForm.port
+                list[this.clusterEditIndex].username = this.clusterForm.username
+                list[this.clusterEditIndex].password = this.clusterForm.password
+                list[this.clusterEditIndex].database = this.clusterForm.database
                 list[this.clusterEditIndex].tableName = this.clusterForm.tableName
                 // 写回去
                 this.modifyClusterState(list)
@@ -188,6 +218,7 @@
                 /* this.clusters[this.clusterEditIndex].name = this.clusterForm.name
                 this.clusters[this.clusterEditIndex].host = this.clusterForm.host
                 this.clusters[this.clusterEditIndex].port = this.clusterForm.port
+                this.clusters[this.clusterEditIndex].database = this.clusterForm.database
                 this.clusters[this.clusterEditIndex].tableName = this.clusterForm.tableName */
             },
             // 删除集群

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-
+import { mapMutations } from "vuex"
 export default {
     components: {
 
@@ -15,6 +15,21 @@ export default {
         return {
             app: this
         }
+    },
+    created() {
+        // 从localStorage恢复clusters对象
+        console.log('开始恢复')
+        let clusters = window.localStorage.getItem("clusters")
+        let list = []
+        if (clusters != null && clusters !== '') {
+            list = JSON.parse(clusters)
+        }
+        console.log('长度为：' + list.length)
+        this.modifyClusterState(list)
+        console.log('恢复完成')
+    },
+    methods: {
+        ...mapMutations(['modifyClusterState'])
     }
 }
 </script>
