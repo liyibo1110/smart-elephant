@@ -41,26 +41,7 @@
     export default{
         data() {
             return {
-                hosts: [
-                    /* {
-                        id: 1,
-                        name: "001库",
-                        host: "192.168.3.25",
-                        port: "5432",
-                        username: "postgres",
-                        password: "dev@yjxd.com_euci",
-                        database: "biz_prd_001"
-                    },
-                    {
-                        id: 2,
-                        name: "002库",
-                        host: "192.168.3.26",
-                        port: "5432",
-                        username: "postgres",
-                        password: "dev@yjxd.com_euci",
-                        database: "biz_prd_002"
-                    } */
-                ],
+                hosts: [],
                 currentCluster: {},
                 value: ""
             }

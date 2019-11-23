@@ -1,5 +1,47 @@
 export default {
     logo: "Smart-Elephant",
+    columnType: [
+        {
+            name: "int4",
+            needLength: false,
+            needRadixPoint: false
+        },
+        {
+            name: "int8",
+            needLength: false,
+            needRadixPoint: false
+        },
+        {
+            name: "varchar",
+            needLength: false,
+            needRadixPoint: false
+        },
+        {
+            name: "text",
+            needLength: false,
+            needRadixPoint: false
+        },
+        {
+            name: "bool",
+            needLength: false,
+            needRadixPoint: false
+        },
+        {
+            name: "numeric",
+            needLength: true,
+            needRadixPoint: true
+        },
+        {
+            name: "date",
+            needLength: false,
+            needRadixPoint: false
+        },
+        {
+            name: "timestamp",
+            needLength: true,
+            needRadixPoint: false
+        }
+    ],
     navBar: {
         active: 0,
         list: [

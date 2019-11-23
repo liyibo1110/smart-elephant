@@ -84,20 +84,6 @@
     export default{
         data() {
             return {
-                /* clusters: [
-                    {
-                        name: "电商集群",
-                        host: "192.168.3.23",
-                        port: "5432",
-                        tableName: "elc_clusters"
-                    },
-                    {
-                        name: "舆情集群",
-                        host: "192.168.3.28",
-                        port: "15432",
-                        tableName: "vs_clusters"
-                    }
-                ], */
                 clusterModel: false,
                 clusterEditIndex: -1,
                 clusterForm: {

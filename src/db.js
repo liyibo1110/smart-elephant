@@ -1,13 +1,5 @@
 const { Client } = require('electron').remote.require('pg')
 
-/* const connObj = {
-    user: "postgres",
-    password: "123456",
-    host: "192.168.3.111",
-    port: "5432",
-    database: "postgres"
-} */
-
 export default class DB {
     /* static createConnectUrl(params) {
         return `postgres://${params.user}:${params.password}@${params.address}:${params.port}/${params.database}`
@@ -38,15 +30,17 @@ export default class DB {
     } */
 
     static connectDB(connObj) {
+        // console.log('打印connObj')
+        // console.log(connObj)
         const client = new Client(connObj)
         return new Promise((resolve, reject) => {
             client.connect()
                 .then(()=>{
-                    console.log('连接成功!')
+                    // console.log('连接成功!')
                     resolve(client)
                 })
                 .catch(err => {
-                    console.log('连接失败')
+                    // console.log('连接失败')
                     reject(err)
                 })
         })
@@ -68,12 +62,35 @@ export default class DB {
                 .catch(err => reject(err))
                 .finally(() => {
                     localClient.end()
-                    console.log('连接已成功清理')
+                    console.log('getHosts连接已成功清理')
                 })
         })
     }
 
-    static getTableStructure(tableName) {
+    static runSql(host, sql) {
+        // console.log("进入runSql")
+        // console.log(host)
+        return new Promise((resolve, reject) => {
+            let localClient = null
+            this.connectDB(host)
+                .then((client)=>{
+                    localClient = client
+                    /* const hostQuery = `
+                    SELECT id, name, host, port, username, 
+                    password, database FROM ${cluster.tableName}
+                    ORDER BY id ASC` */
+                    return localClient.query(sql)
+                })
+                .then(result => resolve(result.rows))
+                .catch(err => reject(err))
+                .finally(() => {
+                    localClient.end()
+                    console.log('runSql连接已成功清理')
+                })
+        })
+    }
+
+    /* static getTableStructure(tableName) {
         return new Promise((resolve, reject) => {
             let localClient = null
             this.connectDB()
@@ -93,7 +110,7 @@ export default class DB {
                     console.log('连接已成功清理')
                 })
         })
-    }
+    } */
         
         /* return new Promise((resolve, reject) => {
             const structureQuery = `
