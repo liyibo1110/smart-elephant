@@ -1,5 +1,16 @@
 export default {
     logo: "Smart-Elephant",
+    indexType: [
+        {
+            name: "btree"
+        },
+        {
+            name: "gin"
+        },
+        {
+            name: "gist"
+        }
+    ],
     columnType: [
         {
             name: "int4",
@@ -84,12 +95,28 @@ export default {
                     {
                         icon: 'el-icon-s-home',
                         name: '索引新增',
-                        pathName: 'column_add'
+                        pathName: 'key_add'
                     },
                     {
                         icon: 'el-icon-s-home',
                         name: '索引删除',
-                        pathName: 'column_delete'
+                        pathName: 'key_delete'
+                    }
+                ]
+            },
+            {
+                name: "表管理",
+                subActive: 0,
+                subMenu: [
+                    {
+                        icon: 'el-icon-s-home',
+                        name: '表新增',
+                        pathName: 'table_add'
+                    },
+                    {
+                        icon: 'el-icon-s-home',
+                        name: '表删除/截断',
+                        pathName: 'table_delete'
                     }
                 ]
             }

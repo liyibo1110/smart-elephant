@@ -7,6 +7,10 @@
         </el-select>
         <el-form ref="form" :model="columnForm" :rules="rules" 
             label-width="110px" class="mt-3">
+            <el-form-item label="表空间名" prop="namespace">
+                <el-input v-model="columnForm.namespace" size="medium" placeholder="请输入表空间名称"
+                    style="width: 300px;"></el-input>
+            </el-form-item>
             <el-form-item label="字段表名" prop="tableName">
                 <el-input v-model="columnForm.tableName" size="medium" placeholder="请输入加字段的表名"
                     style="width: 300px;"></el-input>
@@ -59,6 +63,7 @@
                 columnType: this.$conf.columnType,
                 selectClusterIndex: null,
                 columnForm: {
+                    namespace: "public",
                     tableName: "",
                     name: "",
                     type: "",
@@ -69,6 +74,9 @@
                     radixPoint: 0
                 },
                 rules: {
+                    namespace: [
+                        { required: true, message: '请输入表空间', trigger: 'blur' }
+                    ],
                     tableName: [
                         { required: true, message: '请输入表名', trigger: 'blur' }
                     ],
@@ -182,13 +190,13 @@
                 }
                 let defaultValueSql = defaultValue
                 //let defaultValueSql = this.columnForm.defaultValue !== "" ? " DEFAULT " + this.columnForm.defaultValue : ""
-                let sql = `ALTER TABLE ${this.columnForm.tableName} ADD COLUMN ${this.columnForm.name} ${typeSql}${notNullSql}${defaultValueSql};`
+                let sql = `ALTER TABLE ${this.columnForm.namespace}.${this.columnForm.tableName} ADD COLUMN ${this.columnForm.name} ${typeSql}${notNullSql}${defaultValueSql};`
                 
                 // 额外判断有没有注释
                 let comment = this.columnForm.comment
                 // console.log("comment:" + comment)
                 if (comment !== undefined && comment !== "") {
-                    let commentSql = `COMMENT ON COLUMN ${this.columnForm.tableName}.${this.columnForm.name} IS '${comment}';`
+                    let commentSql = `COMMENT ON COLUMN ${this.columnForm.namespace}.${this.columnForm.tableName}.${this.columnForm.name} IS '${comment}';`
                     sql += commentSql
                 }
                 console.log('Sql：' + sql)

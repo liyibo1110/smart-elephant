@@ -31,6 +31,14 @@ const routes = [
             {
                 meta: { title: '索引删除'},
                 component: 'key/delete'
+            },
+            {
+                meta: { title: '表新增'},
+                component: 'table/add'
+            },
+            {
+                meta: { title: '表删除/截断'},
+                component: 'table/delete'
             }
         ]
     },

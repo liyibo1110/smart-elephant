@@ -5,20 +5,18 @@
             <el-option v-for="(item, index) in clusters" :key="index" 
                 :label="item.name" :value="index"></el-option>
         </el-select>
-        <el-form ref="form" :model="indexForm" :rules="rules" 
+        <el-form ref="form" :model="tableForm" :rules="rules" 
             label-width="110px" class="mt-3">
-            <el-form-item label="索引表空间" prop="namespace">
-                <el-input v-model="indexForm.namespace" size="medium" placeholder="请输入删索引的表空间"
-                    style="width: 300px;"></el-input>
-            </el-form-item>
-            <el-form-item label="索引名称" prop="name">
-                <el-input v-model="indexForm.name" size="medium" placeholder="请输入索引名称"
-                    style="width: 300px;"></el-input>
+            <el-form-item label="建表语句" prop="fullSql">
+                <el-input type="textarea" 
+                    autosize
+                    v-model="tableForm.fullSql" size="medium" placeholder="直接输入建表SQL语句，没必要做细"
+                    style="width: 800px;"></el-input>
             </el-form-item>
         </el-form>
         <el-button type="primary" class="ml-3"
-            @click="deleteIndex"
-            :disabled="deleteButtonDisabled">确认删除</el-button>
+            @click="addTable"
+            :disabled="addButtonDisabled">确认新增</el-button>
     </div>
 </template>
 
@@ -29,19 +27,15 @@
         data() {
             return {
                 selectClusterIndex: null,
-                indexForm: {
-                    namespace: "public",
-                    name: ""
+                tableForm: {
+                    fullText: ""
                 },
                 rules: {
-                    namespace: [
-                        { required: true, message: '请输入表空间', trigger: 'blur' }
-                    ],
-                    name: [
-                        { required: true, message: '请输入索引名', trigger: 'blur' }
+                    fullText: [
+                        { required: true, message: '请输入建表语句', trigger: 'blur' }
                     ]
                 },
-                deleteButtonDisabled: false
+                addButtonDisabled: false
             }
         },
         computed: {
@@ -50,27 +44,31 @@
             })
         },
         methods: {
-            deleteIndex() {
-                this.deleteButtonDisabled = true
+            addTable() {
+                // console.log("点击了新增字段按钮")
+                // 手动验证是否选择了集群
+                // if 
+                // console.log(this.selectClusterIndex)
+                this.addButtonDisabled = true
                 if (!this.selectClusterIndex) {
-                    this.$alert("请选择集群", "删除索引失败", {
+                    this.$alert("请选择集群", "新增索引失败", {
                         confirmButtonText: "知道了"
                     })
-                    this.deleteButtonDisabled = false
+                    this.addButtonDisabled = false
                     return false
                 }
                 this.$refs.form.validate((valid)=>{
                     if (valid) {
                         console.log("验证通过")
-                        this.runDelete()
+                        this.runAdd()
                     } else {
                         //console.log("验证失败")
-                        this.deleteButtonDisabled = false
+                        this.addButtonDisabled = false
                         return false
                     }
                 })
             },
-            runDelete() {
+            runAdd() {
                 // console.log('开始提交新增请求')
                 // 遍历集群，只能逐个请求
                 let cluster = this.clusters[this.selectClusterIndex]
@@ -87,23 +85,24 @@
                 })
                 .then(results=>{
                     console.log(results)
-                    this.$alert("操作成功", "删除索引", {
+                    this.$alert("操作成功", "新增表", {
                         confirmButtonText: "知道了"
                     })
                 })
                 .catch((err) => {
                     console.log(err)
-                    this.$alert(err, "删除失败", {
+                    this.$alert(err, "新增失败", {
                         confirmButtonText: "啊啊啊"
                     })
                 })
                 .finally(() => {
-                    this.deleteButtonDisabled = false
+                    this.addButtonDisabled = false
                 })
             },
             runSingleHost(host) {
                 //console.log('处理单个host')
-                let sql = `DROP INDEX ${this.indexForm.namespace}.${this.indexForm.name};`
+                // 构造CREATE SQL
+                let sql = `${this.tableForm.fullSql}`
                 console.log('Sql：' + sql)
                 return DB.runSql(host, sql)
             }
