@@ -2,6 +2,7 @@
 
 import { app, protocol } from 'electron'
 import WindowManager from './WindowManager'
+// import { Client } from 'pg'
 /* import {
     createProtocol,
     // installVueDevtools

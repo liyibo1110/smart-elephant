@@ -1,5 +1,9 @@
-const { Client } = require('electron').remote.require('pg')
-
+// const { Client } = require('electron').remote.require('pg')
+// const { Client } = require('pg')
+import { remote } from 'electron'
+// import { Client } from 'remote'
+const { Client } = remote.require('pg')
+// import { Client } from 'pg'
 export default class DB {
     /* static createConnectUrl(params) {
         return `postgres://${params.user}:${params.password}@${params.address}:${params.port}/${params.database}`
