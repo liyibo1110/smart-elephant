@@ -2,7 +2,8 @@
 
 import { app, protocol } from 'electron'
 import WindowManager from './WindowManager'
-// import { Client } from 'pg'
+// import { Client } from 'pg/lib/index.js'
+// console.log(Client)
 /* import {
     createProtocol,
     // installVueDevtools
