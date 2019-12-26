@@ -50,7 +50,7 @@
                 // if 
                 // console.log(this.selectClusterIndex)
                 this.addButtonDisabled = true
-                if (!this.selectClusterIndex) {
+                if (this.selectClusterIndex === null) {
                     this.$alert("请选择集群", "新增索引失败", {
                         confirmButtonText: "知道了"
                     })

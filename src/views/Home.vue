@@ -8,11 +8,11 @@
 
 <script>
 // @ is an alias to /src
-import Tester from '@/components/Tester.vue'
+// import Tester from '@/components/Tester.vue'
 
 export default {
     components: {
-        Tester
+        // Tester
     }
 }
 </script>
