@@ -60,7 +60,7 @@
         methods: {
             deleteTable() {
                 this.deleteButtonDisabled = true
-                if (!this.selectClusterIndex) {
+                if (this.selectClusterIndex === null) {
                     this.$alert("请选择集群", "删除表失败", {
                         confirmButtonText: "知道了"
                     })
