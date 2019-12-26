@@ -60,7 +60,7 @@
         methods: {
             deleteColumn() {
                 this.deleteButtonDisabled = true
-                if (!this.selectClusterIndex) {
+                if (this.selectClusterIndex === null) {
                     this.$alert("请选择集群", "删除字段失败", {
                         confirmButtonText: "知道了"
                     })
